@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+    <style>
+        canvas {
+            background: yellow
+        }
+    </style>
+    <meta charset="utf-8">
+</head>
+<body>
+<canvas id="cv" width="500" height="500">
+</canvas>
+<button id="start">开始</button>
+<script type="text/javascript">
+    function draw(x, y, r) {
+        var canvas = document.getElementById("cv");
+        if (canvas.getContext) {
+            var ctx = canvas.getContext("2d");
+            ctx.fillStyle = "#" + getN(255, 0).toString(16) + getN(255, 0).toString(16) + getN(255, 0).toString(16);
+            ctx.strokeWidth = 2;
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, 2 * Math.PI, false);
+            ctx.fill()
+        }
+    }
+    function getN(max, min) {
+        return Math.floor(Math.random() * (max - min) + min)
+    }
+    var z = 0;
+    function startDrawing() {
+        this.create=function(){
+            var x = getN(400, 50), y = getN(400, 50), r = getN(x / getN(30,5), y / getN(30,2));
+            draw(x, y, r);
+            z++;
+        };
+        if (z > 88) {
+            document.getElementById("cv").getContext("2d").clearRect(0, 0, 500, 500);
+            z=0;
+        } else {
+            this.create();
+            this.create();
+            this.create();
+        }
+    }
+    var timer=null;
+    start.onclick = function () {
+        clearInterval(timer);
+        timer=setInterval(function () {
+            startDrawing()
+        }, 100)
+    }
+
+</script>
+</body>
+</html>
